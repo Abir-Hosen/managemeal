@@ -1,0 +1,77 @@
+<md-dialog add-item-dialog style="min-width:60%;">
+	<md-toolbar style="background-color: 2b5982;"><!-- class="md-hue-5" -->
+		<div class="md-toolbar-tools">
+		    <h2 class="md-title">Add New Member</h2>
+		</div>
+	</md-toolbar>
+	<md-progress-linear md-mode="indeterminate" ng-show="showProgressBar"></md-progress-linear>
+	<md-dialog-content class="md-dialog-content">
+	    <p ng-if="item.form.$submitted && item.form.$invalid" class="md-warn" layout="row" layout-align="start center">
+			<i class="material-icons">error_outline</i>
+			<span>&nbsp; All fields are required.</span>
+	    </p>
+		<form name="item.form" ng-submit="ctrl.addItem()">
+			<md-card class="md-whiteframe-5dp">
+				<md-card-content>
+					<div layout="row">
+						<md-input-container class="md-block" flex="100">
+							<label>First Name</label>
+							<input name="firstname" ng-model="member.firstname" type="text" required>
+							<div ng-messages="item.form.item.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+						<md-input-container class="md-block" flex="100">
+							<label>Last Name</label>
+							<input name="lastname" ng-model="member.lastname" type="text" required>
+							<div ng-messages="item.form.lastname.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+					</div>
+					<div layout="row">
+						<md-input-container class="md-block" flex="100">
+							<label>User Name</label>
+							<input name="username" ng-model="member.username" type="text" required>
+							<div ng-messages="item.form.username.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+					</div>
+					<div layout="row">
+						<md-input-container class="md-block" flex="100">
+							<label>Email</label>
+							<input name="email" ng-model="member.email" type="text" required>
+							<div ng-messages="item.form.email.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+					</div>
+					<div layout="row">
+						<md-input-container class="md-block" flex="100">
+							<label>Password</label>
+							<input name="password" ng-model="member.password" type="password" required>
+							<div ng-messages="item.form.password.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+						<md-input-container class="md-block" flex="100">
+							<label>Confirm Password</label>
+							<input name="confirmPassword" ng-model="member.confirmPassword" type="password" required>
+							<div ng-messages="item.form.confirmPassword.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+					</div>
+					
+				</md-card-content>
+			</md-card>		
+		</form>
+    
+  </md-dialog-content>
+  
+  <md-dialog-actions>
+    <md-button class="md-raised md-primary" ng-click="ctrl.addItem()" ng-disabled="item.form.$invalid || member.password!=member.confirmPassword">Add Hostel Member</md-button>
+    <md-button class="md-raised md-primary" ng-click="ctrl.cancel()">Cancel</md-button>
+  </md-dialog-actions>
+</md-dialog>

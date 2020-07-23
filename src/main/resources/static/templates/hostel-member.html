@@ -1,0 +1,43 @@
+<md-card>
+	<md-toolbar style="background-color: 2b5982; z-index:0;><!-- class="md-hue-5" -->
+		<div class="md-toolbar-tools">
+		    <h2 class="md-title">Meal Manager :  Hostel Member List</h2>
+		     <div flex></div>
+		     <md-button class="md-icon-button" ng-click="addHostelMember()">
+				<md-icon>add_circleg</md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+	<md-progress-linear md-mode="indeterminate" ng-show="showProgressBar"></md-progress-linear>
+</md-card>
+<md-card>
+	<md-content flex layout-padding>
+		<md-table-container>
+			<table md-table>
+				<thead fix-head md-head>
+					<tr md-row >
+						<th class="my-data-table-desc" md-column >id</th>
+						<th class="my-data-table-desc" md-column >name</th>
+						<th class="my-data-table-desc" md-column >username</th>
+						<th class="my-data-table-desc" md-column >email</th>
+						<th class="my-data-table-desc" md-column >action</th>
+					</tr>
+				</thead>
+				<tbody md-body>
+					<tr md-row ng-repeat="user in users.content" ng-show="user.superUser.id==session_id">
+						<td class="my-data-table-desc" md-cell >{{user.id}}</td>
+						<td class="my-data-table-desc" md-cell >{{user.lastname}}</td>
+						<td class="my-data-table-desc" md-cell >{{user.username}}</td>
+						<td class="my-data-table-desc" md-cell >{{user.email}}</td>
+						<td class="my-data-table-desc" md-cell >
+							<md-button class="md-icon-button" ng-click="deleteHostelMember(user)">
+								<md-icon>delete</md-icon>
+							</md-button>
+   						</td>
+					</tr>
+				</tbody>
+			</table>
+		</md-table-container>
+	</md-content>
+</md-card>
+

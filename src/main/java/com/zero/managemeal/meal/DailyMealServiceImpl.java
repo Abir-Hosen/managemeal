@@ -1,6 +1,5 @@
-package com.zero.managemeal.user;
+package com.zero.managemeal.meal;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -10,28 +9,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.zero.managemeal.abc.RequestParameter;
-import com.zero.managemeal.meal.DailyMeal;
-import com.zero.managemeal.meal.DailyMealService;
 
-@Service("userService")
-public class UserServiceImpl implements UserService {
+@Service("dailyMealService")
+public class DailyMealServiceImpl implements DailyMealService {
 	
-	Logger logger = LoggerFactory.getLogger(UserService.class);
+	Logger logger = LoggerFactory.getLogger(DailyMealService.class);
 	
 	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
-	@Autowired
-	private UserRepository repository;
-
+	private DailyMealRepository repository;
 	private Pageable pagable;
 
 	@Override
-	public Page<User> findAllBySortAndOrder(RequestParameter requestParameter) {
+	public Page<DailyMeal> findAllBySortAndOrder(RequestParameter requestParameter) {
 		logger.info("Entering findAllBySortAndOrder Method");
 		if(requestParameter.getPage() >= 1) {
 			requestParameter.setPage(requestParameter.getPage()-1);
@@ -47,24 +39,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addEntity(User entity) {
-		repository.save(entity);
-	}
-
-	@Override
-	public void signUp(User entity) {
-		entity.setPassword(bCryptPasswordEncoder.encode(entity.getPassword()));
-		repository.save(entity);
-	}
-
-	@Override
-	public Optional<User> findById(Long id) {
+	public Optional<DailyMeal> findById(Long id) {
 		return repository.findById(id);
 	}
 
 	@Override
-	public User findByEmail(String email) {
-		return repository.findByEmail(email);
+	public void addEntity(DailyMeal entity) {
+		repository.save(entity);
 	}
 
 	@Override

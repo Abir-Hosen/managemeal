@@ -41,7 +41,7 @@ public class ApplicationRunnerMMApplication implements ApplicationRunner {
 	
 	private Boolean isInstalled() {
 		
-		if(roleService.allEntity().isEmpty() && userService.allEntity().isEmpty()) {
+		if(roleService.allEntity().isEmpty()) {
 			return false;
 		}
 		return true;

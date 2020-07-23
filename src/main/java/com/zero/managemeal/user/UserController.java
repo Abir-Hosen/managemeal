@@ -1,12 +1,14 @@
 package com.zero.managemeal.user;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zero.managemeal.abc.ConstantFactory;
+import com.zero.managemeal.abc.RequestParameter;
 import com.zero.managemeal.role.RoleService;
 
 
@@ -29,16 +32,20 @@ import com.zero.managemeal.role.RoleService;
 @RequestMapping("/api/user")
 public class UserController {
 	
+	private Logger logger = LoggerFactory.getLogger(UserController.class);
+	
 	@Autowired
 	private UserService service;
 	@Autowired
 	private RoleService roleService;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	@GetMapping
-	public ResponseEntity<List<User>> AllEntity(){
-		return ResponseEntity.ok(service.allEntity());
+	public ResponseEntity<Page<User>> findAllBySortAndOrder(RequestParameter requestParameter, HttpSession session) {
+		logger.info("Entering GET method");
+		Page<User> page = service.findAllBySortAndOrder(requestParameter);
+		return ResponseEntity.ok(page);
 	}
 	
 	@GetMapping("/{id}")
@@ -52,9 +59,11 @@ public class UserController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<User> addEntity(@RequestBody @Valid User entity, BindingResult bindingResult) {
+	public ResponseEntity<User> addEntity(@RequestBody @Valid User entity, BindingResult bindingResult, HttpSession httpSession) {
 		if(!bindingResult.hasErrors()) {
 			entity.setRole(roleService.findByName(ConstantFactory.USER));
+			System.out.println((User) httpSession.getAttribute("user"));
+			entity.setSuperUser((User) httpSession.getAttribute("user"));
 			entity.setPassword(bCryptPasswordEncoder.encode(entity.getPassword()));
 			service.addEntity(entity);
 			return ResponseEntity.ok(entity);
@@ -63,8 +72,8 @@ public class UserController {
 		}
 	}
 	
-	@PutMapping
-	public ResponseEntity<User> updateEntity(@RequestBody @Valid User entity, BindingResult bindingResult, HttpSession httpSession) {
+	@PutMapping("/{id}")
+	public ResponseEntity<User> updateEntity(@PathVariable Long id, @RequestBody @Valid User entity, BindingResult bindingResult, HttpSession httpSession) {
 		if(!bindingResult.hasErrors()) {
 			if(bCryptPasswordEncoder.matches(entity.getConfirmPassword(), service.findByEmail((String) httpSession.getAttribute("email")).getPassword())) {
 				service.addEntity(entity);
@@ -79,9 +88,9 @@ public class UserController {
 		}
 	}
 
-	@DeleteMapping
-	public ResponseEntity<User> deleteEntity(@RequestBody User entity) {
-		service.deleteEntity(entity);
-		return ResponseEntity.ok(entity);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<User> deleteEntity(@PathVariable Long id) {
+		service.deleteEntity(id);
+		return ResponseEntity.ok(null);
 	}
 }

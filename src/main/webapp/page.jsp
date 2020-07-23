@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %> 
 
 <spring:url var="css" value="/css" />
 <spring:url var="js" value="/js" />
@@ -40,6 +41,14 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
 <!--##########@@############ CSS Icon Library Finished #####################################################-->
+
+
+<!--##########@@############ CSS JS table Library ##############################################################-->
+<script src="${js}/fixed-table-header.js"></script>
+<script src="${js}/md-data-table.min.js"></script>
+<link href="${css}/md-data-table.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+<!--##########@@############ CSS JS table Library Finished #####################################################-->
 
 <!--##########@@############ Self CSS and JS Library #######################################################-->
 <script type="text/javascript">
